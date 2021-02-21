@@ -22,7 +22,7 @@
 		},
 	];
 
-	function handleChange(e) {
+	function handleChange(e: CustomEvent) {
 		let name: string = e.detail.name;
 		let value: any = e.detail.value;
 		if (name == "color") {
@@ -43,7 +43,8 @@
 
 	h1 {
 		text-transform: uppercase;
-		font-size: 4em;
+		font-size: size;
+		color: color;
 		font-weight: 100;
 	}
 
@@ -55,7 +56,7 @@
 </style>
 
 <main>
-	<h1 style="color: {color}; font-size: {size}px">{name}</h1>
+	<h1>{name}</h1>
 
 	{#each properties as { prop, label, type, values }}
 		{#if type == 'enum'}
@@ -68,5 +69,7 @@
 		{:else if type == 'number'}
 			<Input name={prop} {label} type="number" on:change={handleChange} />
 		{/if}
+	{:else}
+		<div>sorry, no props here</div>
 	{/each}
 </main>

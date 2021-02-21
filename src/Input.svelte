@@ -9,13 +9,10 @@
 	export let type: InputType;
 	export let values: any[];
 
-	export let value: any;
-
 	function onChange(e) {
-		value = e.target.value;
 		dispatch("change", {
 			name: name,
-			value: value,
+			value: e.target.value,
 		});
 	}
 </script>
