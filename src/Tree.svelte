@@ -2,13 +2,12 @@
   export let nodes;
 </script>
 
-{#each nodes as { component, content, children }}
-  <svelte:component this={component}>
-    {#if children && children.length > 0}
-      <svelte:self nodes={children} />
-    {/if}
-    {#if content}
+{#each nodes as { component, props, content }}
+  <svelte:component this={component} {...props}>
+    {#if typeof content === "string"}
       {content}
+    {:else if typeof content === "object" && content.length > 0}
+      <svelte:self nodes={content} />
     {/if}
   </svelte:component>
 {/each}

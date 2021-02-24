@@ -9,28 +9,36 @@ export const selectedElement = writable(null);
 export const tree = writable([
   {
     component: Div,
-    content: "",
-    children: [
+    props: {},
+    content: [
       {
         component: Heading,
+        props: {
+          level: 1,
+        },
         content: "Hello",
       },
       {
         component: Paragraph,
+        props: {},
         content: "some text",
       },
     ],
   },
   {
     component: Div,
-    content: "",
-    children: [
+    props: {},
+    content: [
       {
         component: Heading,
+        props: {
+          level: 2,
+        },
         content: "Hello again!",
       },
       {
         component: Paragraph,
+        props: {},
         content: "some more text",
       },
     ],
