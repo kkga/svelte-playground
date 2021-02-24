@@ -1,12 +1,27 @@
 <script lang="ts">
-  import Input from "./Input.svelte";
+  import { tree } from "./stores.js";
 
-  export let name: string;
+  import Input from "./Input.svelte";
+  import Tree from "./Tree.svelte";
+  import Heading from "./Heading.svelte";
+  import Div from "./Div.svelte";
+  import Paragraph from "./Paragraph.svelte";
+
   let color: string;
   let size: number;
 
   $: console.log(color);
   $: console.log(size);
+
+  function handleChange(e: CustomEvent) {
+    let name: string = e.detail.name;
+    let value: any = e.detail.value;
+    if (name == "color") {
+      color = value;
+    } else if (name == "size") {
+      size = value;
+    }
+  }
 
   const properties = [
     {
@@ -22,20 +37,33 @@
     },
   ];
 
-  function handleChange(e: CustomEvent) {
-    let name: string = e.detail.name;
-    let value: any = e.detail.value;
-    if (name == "color") {
-      color = value;
-    } else if (name == "size") {
-      size = value;
-    }
+  function addToTree(node, tree) {
+    tree.push(node);
+    return tree;
   }
+
+  function addHeading() {
+    tree.update((t) =>
+      addToTree(
+        {
+          component: Heading,
+          content: "hello again",
+          children: [],
+        },
+        tree
+      )
+    );
+  }
+  console.log(tree);
 </script>
 
 <main>
-  <h1>{name}</h1>
+  <Tree nodes={$tree} />
 
+  <button on:click={addHeading}>add heading</button>
+</main>
+
+<!--
   {#each properties as { prop, label, type, values }}
     {#if type == "enum"}
       <Input
@@ -51,8 +79,7 @@
   {:else}
     <div>sorry, no props here</div>
   {/each}
-</main>
-
+  -->
 <style>
   main {
     text-align: center;
@@ -61,16 +88,10 @@
     margin: 0 auto;
   }
 
-  h1 {
-    text-transform: uppercase;
-    font-size: size;
-    color: color;
-    font-weight: 100;
-  }
-
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-    }
-  }
+  /* h1 { */
+  /*   text-transform: uppercase; */
+  /*   font-size: size; */
+  /*   color: color; */
+  /*   font-weight: 100; */
+  /* } */
 </style>
