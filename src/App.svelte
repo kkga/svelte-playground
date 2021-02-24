@@ -1,64 +1,29 @@
 <script lang="ts">
   import { tree } from "./stores.js";
 
-  import Input from "./Input.svelte";
   import Tree from "./Tree.svelte";
   import Heading from "./Heading.svelte";
-  import Div from "./Div.svelte";
-  import Paragraph from "./Paragraph.svelte";
 
-  let color: string;
-  let size: number;
-
-  $: console.log(color);
-  $: console.log(size);
-
-  function handleChange(e: CustomEvent) {
-    let name: string = e.detail.name;
-    let value: any = e.detail.value;
-    if (name == "color") {
-      color = value;
-    } else if (name == "size") {
-      size = value;
-    }
-  }
-
-  const properties = [
-    {
-      prop: "color",
-      label: "Color",
-      type: "enum",
-      values: ["red", "yellow", "green"],
-    },
-    {
-      prop: "size",
-      label: "Size",
-      type: "number",
-    },
-  ];
-
-  function addToTree(node, tree) {
-    tree.push(node);
-    return tree;
+  function addToTree(tree: Array<{}>, node) {
+    return [...tree, node];
   }
 
   function addHeading() {
     tree.update((t) =>
-      addToTree(
-        {
-          component: Heading,
-          content: "hello again",
-          children: [],
-        },
-        tree
-      )
+      addToTree(t, {
+        component: Heading,
+        content: "hello again",
+      })
     );
   }
-  console.log(tree);
+
+  function hey(e) {
+    console.log(e.detail);
+  }
 </script>
 
 <main>
-  <Tree nodes={$tree} />
+  <Tree on:selected={hey} nodes={$tree} />
 
   <button on:click={addHeading}>add heading</button>
 </main>
@@ -87,11 +52,4 @@
     max-width: 240px;
     margin: 0 auto;
   }
-
-  /* h1 { */
-  /*   text-transform: uppercase; */
-  /*   font-size: size; */
-  /*   color: color; */
-  /*   font-weight: 100; */
-  /* } */
 </style>
